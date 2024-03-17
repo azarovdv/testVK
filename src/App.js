@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import {
+	AppRoot,
+	Button,
+	Panel,
+	PanelHeader,
+	SplitCol,
+	SplitLayout,
+	View,
+	usePlatform,
+} from "@vkontakte/vkui";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import "./style.css";
+import CatFactInput from "./components/CatFactInput";
+import AgeByName from "./components/AgeByName";
+
+const App = () => {
+	const platform = usePlatform();
+	const [activePanel, setActivePanel] = useState("main");
+
+	return (
+		<AppRoot>
+			<SplitLayout
+				header={platform !== "vkcom" && <PanelHeader delimiter="spacing" />}
+			>
+				<SplitCol className="container">
+					<View activePanel={activePanel}>
+						<Panel id="main">
+							<Button className="button" onClick={() => setActivePanel("two")}>
+								Вперед
+							</Button>
+							<CatFactInput />
+						</Panel>
+						<Panel id="two">
+							<Button className="button" onClick={() => setActivePanel("main")}>
+								Назад
+							</Button>
+							<AgeByName />
+						</Panel>
+					</View>
+				</SplitCol>
+			</SplitLayout>
+		</AppRoot>
+	);
+};
 
 export default App;
